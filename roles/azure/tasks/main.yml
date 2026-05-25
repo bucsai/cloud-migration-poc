@@ -1,0 +1,29 @@
+---
+- name: Check if Azure credentials file exists
+  ansible.builtin.stat:
+    path: ~/.azure/credentials
+  register: azure_creds_file
+
+- name: Use a credentials file to authenticate with Azure
+  when: not azure_creds_file.stat.exists
+  block:
+    - name: Ensure Azure config folder exists
+      ansible.builtin.file:
+        path: ~/.azure
+        state: directory
+        mode: '0700'
+
+    - name: Ensure Azure credentials file exists
+      ansible.builtin.copy:
+        content: |
+          [default]
+          subscription_id={{ azure_subscription_id }}
+          client_id={{ azure_app_id }}
+          secret={{ azure_app_pass }}
+          tenant={{ azure_tenant_id }}
+        dest: ~/.azure/credentials
+        mode: '0600'
+
+- name: Create VM and related resources
+  ansible.builtin.import_tasks: create_vm.yml
+  tags: create_vm

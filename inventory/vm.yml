@@ -1,0 +1,10 @@
+---
+all:
+  children:
+    windows:
+      hosts:
+        srv-win-1:
+          ansible_host: 192.168.8.41
+        srv-win-2:
+          ansible_host: 192.168.8.42
+    linux:

@@ -1,0 +1,14 @@
+---
+- name: Test Playbook
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Test Linux login
+      ansible.builtin.ping:
+      delegate_to: "{{ item }}"
+      loop: "{{ groups['linux'] }}"
+
+    - name: Test Windows login
+      ansible.windows.win_ping:
+      delegate_to: "{{ item }}"
+      loop: "{{ groups['windows'] }}"

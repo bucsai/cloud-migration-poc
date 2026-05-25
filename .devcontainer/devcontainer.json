@@ -1,0 +1,38 @@
+{
+  "name": "cloud-migration-poc",
+  "dockerComposeFile": "docker-compose.yaml",
+  "service": "devcontainer",
+  "workspaceFolder": "/workspaces/cloud-migration-poc",
+  "remoteUser": "root",
+  "updateRemoteUserUID": true,
+  "remoteEnv": {
+    "ANSIBLE_CONFIG": "/workspaces/cloud-migration-poc/ansible.cfg"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "redhat.ansible",
+        "ms-azuretools.vscode-containers",
+        "charliermarsh.ruff",
+        "ms-vscode.powershell"
+      ],
+      "settings": {
+        "files.eol": "\n",
+        "files.associations": {
+          "*.yml": "ansible"
+        },
+        "yaml.customTags": [
+          "!vault scalar"
+        ],
+        "[python]": {
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+          },
+          "editor.defaultFormatter": "charliermarsh.ruff"
+        }
+      }
+    }
+  }
+}

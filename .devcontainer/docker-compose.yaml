@@ -1,0 +1,22 @@
+services:
+  devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cloud-migration-poc
+    hostname: cloud-migration-poc
+    tty: true
+    stdin_open: true
+    privileged: true
+    devices:
+      - "/dev/fuse:/dev/fuse"
+    volumes:
+      - ..:/workspaces/cloud-migration-poc:cached
+      - /var/run/docker.sock:/var/run/docker.sock:z
+    networks:
+      - cloud-migration-poc
+
+networks:
+  cloud-migration-poc:
+    name: cloud-migration-poc
+    driver: bridge
