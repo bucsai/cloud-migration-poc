@@ -1,8 +1,8 @@
 ---
 azure_vm_config:
   # Global Deployment settings
-  location: swedencentral
-  resource_group: ansible-rg
+  location: "{{ azure_common.location }}"
+  resource_group: "{{ azure_common.resource_group }}"
 
   # Network Infrastructure Configuration
   network:
@@ -21,6 +21,11 @@ azure_vm_config:
     name: AnsibleVM
     size: Standard_B2ats_v2
     os_type: Windows
+    image:
+      offer: WindowsServer
+      publisher: MicrosoftWindowsServer
+      sku: 2022-Datacenter-smalldisk
+      version: latest
     admin:
       username: ansible
       password: !vault |
@@ -30,8 +35,3 @@ azure_vm_config:
                 39353163323636316531393139643661633938396135616332346633316130323064623464383933
                 3834636534646231320a633032373936653638383765636637653262336131653632616237623835
                 33616361653831333033666364636365383230343566633635333932613361303535
-    image:
-      offer: WindowsServer
-      publisher: MicrosoftWindowsServer
-      sku: 2022-Datacenter-smalldisk
-      version: latest
