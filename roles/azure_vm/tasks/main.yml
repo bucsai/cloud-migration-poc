@@ -11,6 +11,15 @@
     location: "{{ azure_vm_config.location }}"
     state: present
 
+- name: Ensure Storage Account exists
+  azure.azcollection.azure_rm_storageaccount:
+    resource_group: "{{ azure_vm_config.resource_group }}"
+    name: "{{ azure_vm_config.storage_account.name }}"
+    account_type: "{{ azure_vm_config.storage_account.type }}"
+    kind: "{{ azure_vm_config.storage_account.kind }}"
+    location: "{{ azure_vm_config.location }}"
+    state: present
+
 - name: Ensure Virtual Network exists
   azure.azcollection.azure_rm_virtualnetwork:
     resource_group: "{{ azure_vm_config.resource_group }}"
@@ -74,6 +83,9 @@
     network_interfaces: "{{ azure_vm_config.network.nic_name }}"
     os_type: "{{ azure_vm_config.vm.os_type }}"
     image: "{{ azure_vm_config.vm.image }}"
+    storage_account_name: "{{ azure_vm_config.storage_account.name }}"
+    boot_diagnostics:
+      enabled: true
     state: present
     started: true
 

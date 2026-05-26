@@ -4,6 +4,13 @@ azure_vm_config:
   location: "{{ azure_common.location }}"
   resource_group: "{{ azure_common.resource_group }}"
 
+  # Storage Configuration
+  storage_account:
+    name: stansiblepocswc
+    type: Standard_LRS
+    kind: StorageV2
+
+
   # Network Infrastructure Configuration
   network:
     vnet:
