@@ -8,4 +8,11 @@
     AZURE_CLIENT_ID: "{{ azure_common.app_id }}"
     AZURE_SECRET: "{{ azure_common.app_pass }}"
   roles:
-    - azure_vm
+    - role: azure_vm
+      tags:
+        - azure_vm
+        - vm
+    - role: azure_db
+      tags:
+        - azure_db
+        - db
