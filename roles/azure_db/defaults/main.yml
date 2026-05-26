@@ -1,0 +1,22 @@
+---
+azure_db_config:
+  # Global Deployment settings
+  location: "{{ azure_common.location }}"
+  resource_group: "{{ azure_common.resource_group }}"
+
+  # SQL Server Spec and Credentials
+  server:
+    name: sql-ansible-poc
+    admin:
+      username: ansible
+      password: !vault |
+                $ANSIBLE_VAULT;1.1;AES256
+                34643664343937653337346666303063623630393635333635616265303861376335653261333465
+                3935363261373936323036346437393236636563353639660a326138656231623064323766316130
+                39353163323636316531393139643661633938396135616332346633316130323064623464383933
+                3834636534646231320a633032373936653638383765636637653262336131653632616237623835
+                33616361653831333033666364636365383230343566633635333932613361303535
+
+  # Database Spec
+  database:
+    name: sqldb-ansible-poc

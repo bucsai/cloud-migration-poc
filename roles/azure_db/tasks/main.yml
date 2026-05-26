@@ -1,0 +1,23 @@
+---
+- name: Ensure Resource Group exists
+  azure.azcollection.azure_rm_resourcegroup:
+    name: "{{ azure_db_config.resource_group }}"
+    location: "{{ azure_db_config.location }}"
+    state: present
+
+- name: Ensure SQL Server exists
+  azure.azcollection.azure_rm_sqlserver:
+    resource_group: "{{ azure_db_config.resource_group }}"
+    name: "{{ azure_db_config.server.name }}"
+    location: "{{ azure_db_config.location }}"
+    admin_username: "{{ azure_db_config.server.admin.username }}"
+    admin_password: "{{ azure_db_config.server.admin.password }}"
+    state: present
+
+- name: Ensure SQL Database exists
+  azure.azcollection.azure_rm_sqldatabase:
+    resource_group: "{{ azure_db_config.resource_group }}"
+    server_name: "{{ azure_db_config.server.name }}"
+    name: "{{ azure_db_config.database.name }}"
+    location: "{{ azure_db_config.location }}"
+    state: present
