@@ -1,5 +1,5 @@
 ---
-- name: Test Playbook
+- name: Test Connectivity
   hosts: localhost
   gather_facts: false
   tasks:

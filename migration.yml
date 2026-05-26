@@ -1,6 +1,0 @@
----
-- name: Migration Playbook
-  hosts: localhost
-  gather_facts: false
-  roles:
-    - azure

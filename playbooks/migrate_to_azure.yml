@@ -1,0 +1,11 @@
+---
+- name: Migrate to Azure
+  hosts: localhost
+  gather_facts: false
+  environment:
+    AZURE_TENANT: "{{ azure_common.tenant_id }}"
+    AZURE_SUBSCRIPTION_ID: "{{ azure_common.subscription_id }}"
+    AZURE_CLIENT_ID: "{{ azure_common.app_id }}"
+    AZURE_SECRET: "{{ azure_common.app_pass }}"
+  roles:
+    - azure_vm

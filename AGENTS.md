@@ -10,6 +10,8 @@ This file contains context, guidelines, and rules for AI agents (including `agy`
 ## Ansible Guidelines
 
 1. **Fully-Qualified Collection Names (FQCN):** For Ansible, always use fully-qualified collection names (e.g., `ansible.builtin.copy` instead of `copy`, `community.general.git` instead of `git`).
+2. **Native Ansible Design Patterns:** Prefer native Ansible features (e.g., `environment:`, variable inheritance, `pre_tasks`/`post_tasks`) rather than relying on OS-level workarounds (e.g., writing to shell startup files like `.bashrc` or `.zshrc` to pass values between tasks).
+
 
 ## Testing Guidelines
 
