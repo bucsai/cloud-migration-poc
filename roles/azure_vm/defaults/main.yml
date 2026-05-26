@@ -7,18 +7,18 @@ azure_vm_config:
   # Network Infrastructure Configuration
   network:
     vnet:
-      name: AnsibleVnet
+      name: vnet-ansible-poc-swc
       cidr: 10.0.0.0/16
     subnet:
-      name: AnsibleSubnet
+      name: snet-ansible-poc-swc
       cidr: 10.0.1.0/24
-    nsg_name: AnsibleNSG
-    public_ip_name: AnsiblePublicIP
-    nic_name: AnsibleNIC
+    nsg_name: nsg-ansible-poc-swc
+    public_ip_name: pip-ansible-poc-swc
+    nic_name: nic-ansible-poc-swc
 
   # VM Spec and Credentials
   vm:
-    name: AnsibleVM
+    name: vm-ansible-poc
     size: Standard_B2ats_v2
     os_type: Windows
     image:
