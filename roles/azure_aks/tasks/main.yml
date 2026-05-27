@@ -12,4 +12,7 @@
     api_server_access_profile:
       authorized_ip_ranges:
         - "{{ ansible_controller_public_ip.json.ip }}/32"
+    linux_profile:
+      admin_username: "{{ azure_aks_config.cluster.admin.username }}"
+      ssh_key: "{{ azure_aks_config.cluster.admin.ssh_key }}"
     state: present

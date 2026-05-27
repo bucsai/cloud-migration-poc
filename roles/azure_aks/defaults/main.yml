@@ -4,7 +4,7 @@ azure_aks_config:
   location: "{{ azure_common.location }}"
   resource_group: "rg-{{ azure_resource_base }}"
 
-  # AKS Cluster Configuration
+  # Cluster Spec and Credentials
   cluster:
     name: "aks-{{ azure_resource_base_regional }}"
     dns_prefix: "aks{{ azure_resource_base | replace('-', '') | replace('_', '') }}"
@@ -12,5 +12,8 @@ azure_aks_config:
     agent_pool_profiles:
       - name: default
         count: 1
-        vm_size: Standard_B2s_v2
+        vm_size: Standard_D2_v2
         mode: System
+    admin:
+      username: "{{ azure_admin.username }}"
+      ssh_key: "{{ azure_admin.ssh_key }}"

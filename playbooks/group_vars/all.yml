@@ -29,3 +29,15 @@ azure_location_suffix: "{{ azure_location_suffixes[azure_common.location] | defa
 # Consolidated resource naming bases
 azure_resource_base: "{{ azure_common.project_name }}-{{ azure_common.env_name }}"
 azure_resource_base_regional: "{{ azure_resource_base }}-{{ azure_location_suffix }}"
+
+# Admin credentials used across resources (VM, AKS, etc.)
+azure_admin:
+  username: ansible
+  password: !vault |
+            $ANSIBLE_VAULT;1.1;AES256
+            34643664343937653337346666303063623630393635333635616265303861376335653261333465
+            3935363261373936323036346437393236636563353639660a326138656231623064323766316130
+            39353163323636316531393139643661633938396135616332346633316130323064623464383933
+            3834636534646231320a633032373936653638383765636637653262336131653632616237623835
+            33616361653831333033666364636365383230343566633635333932613361303535
+  ssh_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
