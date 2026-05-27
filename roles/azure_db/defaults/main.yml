@@ -20,3 +20,6 @@ azure_db_config:
   # Database Spec
   database:
     name: sqldb-ansible-poc
+    sku:
+      name: Basic
+      tier: Basic
