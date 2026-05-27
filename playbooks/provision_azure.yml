@@ -13,12 +13,16 @@
         name: "{{ azure_common.resource_group }}"
         location: "{{ azure_common.location }}"
         state: present
+      tags:
+        - always
 
     - name: Get Ansible controller public IP for whitelisting
       ansible.builtin.uri:
         url: https://api.ipify.org?format=json
         method: GET
       register: ansible_controller_public_ip
+      tags:
+        - always
   roles:
     - role: azure_vm
       tags:
