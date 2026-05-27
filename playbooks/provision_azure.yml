@@ -8,41 +8,34 @@
     AZURE_CLIENT_ID: "{{ azure_common.app_id }}"
     AZURE_SECRET: "{{ azure_common.app_pass }}"
   pre_tasks:
-    - name: Ensure SSH key pair exists
-      ansible.builtin.command:
-        cmd: "ssh-keygen -t rsa -b 4096 -N '' -f {{ lookup('env', 'HOME') }}/.ssh/id_rsa"
-        creates: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
+    - name: Initialize dependencies
+      when: ansible_run_tags | intersect(['destroy', 'teardown']) | length == 0
       tags:
         - always
+      block:
+        - name: Ensure SSH key pair exists
+          ansible.builtin.command:
+            cmd: "ssh-keygen -t rsa -b 4096 -N '' -f {{ lookup('env', 'HOME') }}/.ssh/id_rsa"
+            creates: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
 
-    - name: Ensure Resource Group exists
-      azure.azcollection.azure_rm_resourcegroup:
-        name: "rg-{{ azure_resource_base }}"
-        location: "{{ azure_common.location }}"
-        state: present
-      tags:
-        - always
+        - name: Ensure Resource Group exists
+          azure.azcollection.azure_rm_resourcegroup:
+            name: "rg-{{ azure_resource_base }}"
+            location: "{{ azure_common.location }}"
+            state: present
 
-    - name: Get Ansible controller public IP for whitelisting
-      ansible.builtin.uri:
-        url: https://api.ipify.org?format=json
-        method: GET
-      register: ansible_controller_public_ip
-      tags:
-        - always
+        - name: Get Ansible controller public IP for whitelisting
+          ansible.builtin.uri:
+            url: https://api.ipify.org?format=json
+            method: GET
+          register: ansible_controller_public_ip
   roles:
     - role: azure_vm
-      tags:
-        - azure_vm
-        - vm
+      tags: ['azure_vm', 'vm']
     - role: azure_db
-      tags:
-        - azure_db
-        - db
+      tags: ['azure_db', 'db']
     - role: azure_aks
-      tags:
-        - azure_aks
-        - aks
+      tags: ['azure_aks', 'aks']
 
 - name: Tear down Azure Infrastructure
   hosts: localhost
