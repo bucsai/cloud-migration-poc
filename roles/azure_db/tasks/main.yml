@@ -20,4 +20,20 @@
     server_name: "{{ azure_db_config.server.name }}"
     name: "{{ azure_db_config.database.name }}"
     location: "{{ azure_db_config.location }}"
+    sku: "{{ azure_db_config.database.sku | default(omit) }}"
+    state: present
+
+- name: Get local public IP for SQL firewall rule
+  ansible.builtin.uri:
+    url: https://api.ipify.org?format=json
+    method: GET
+  register: azure_db_inbound_ip
+
+- name: Ensure firewall rule exists to allow access from local public IP
+  azure.azcollection.azure_rm_sqlfirewallrule:
+    resource_group: "{{ azure_db_config.resource_group }}"
+    server_name: "{{ azure_db_config.server.name }}"
+    name: "AllowLocalIP"
+    start_ip_address: "{{ azure_db_inbound_ip.json.ip }}"
+    end_ip_address: "{{ azure_db_inbound_ip.json.ip }}"
     state: present
