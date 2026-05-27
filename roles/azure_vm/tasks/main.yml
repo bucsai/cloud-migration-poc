@@ -21,7 +21,7 @@
     address_prefix: "{{ azure_vm_config.network.subnet.cidr }}"
     virtual_network: "{{ azure_vm_config.network.vnet.name }}"
 
-- name: Ensure Network Security Group exists with rules to allow WinRM and RDP from Ansible controller's public IP
+- name: Ensure Network Security Group exists to limit access
   azure.azcollection.azure_rm_securitygroup:
     resource_group: "{{ azure_vm_config.resource_group }}"
     name: "{{ azure_vm_config.network.nsg_name }}"
