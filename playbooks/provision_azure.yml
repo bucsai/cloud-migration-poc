@@ -8,6 +8,13 @@
     AZURE_CLIENT_ID: "{{ azure_common.app_id }}"
     AZURE_SECRET: "{{ azure_common.app_pass }}"
   pre_tasks:
+    - name: Ensure SSH key pair exists
+      ansible.builtin.command:
+        cmd: "ssh-keygen -t rsa -b 4096 -N '' -f {{ lookup('env', 'HOME') }}/.ssh/id_rsa"
+        creates: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
+      tags:
+        - always
+
     - name: Ensure Resource Group exists
       azure.azcollection.azure_rm_resourcegroup:
         name: "rg-{{ azure_resource_base }}"
