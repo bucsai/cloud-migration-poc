@@ -2,30 +2,29 @@
 azure_vm_config:
   # Global Deployment settings
   location: "{{ azure_common.location }}"
-  resource_group: "{{ azure_common.resource_group }}"
+  resource_group: "rg-{{ azure_resource_base }}"
 
   # Storage Configuration
   storage_account:
-    name: stansiblepocswc
+    name: "st{{ azure_resource_base_regional | replace('-', '') | replace('_', '') }}"
     type: Standard_LRS
     kind: StorageV2
-
 
   # Network Infrastructure Configuration
   network:
     vnet:
-      name: vnet-ansible-poc-swc
+      name: "vnet-{{ azure_resource_base_regional }}"
       cidr: 10.0.0.0/16
     subnet:
-      name: snet-ansible-poc-swc
+      name: "snet-{{ azure_resource_base_regional }}"
       cidr: 10.0.1.0/24
-    nsg_name: nsg-ansible-poc-swc
-    public_ip_name: pip-ansible-poc-swc
-    nic_name: nic-ansible-poc-swc
+    nsg_name: "nsg-{{ azure_resource_base_regional }}"
+    public_ip_name: "pip-{{ azure_resource_base_regional }}"
+    nic_name: "nic-{{ azure_resource_base_regional }}"
 
   # VM Spec and Credentials
   vm:
-    name: vm-ansible-poc
+    name: "vm-{{ azure_resource_base }}"
     size: Standard_B2ats_v2
     os_type: Windows
     image:

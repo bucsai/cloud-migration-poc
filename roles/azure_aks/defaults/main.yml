@@ -2,12 +2,12 @@
 azure_aks_config:
   # Global Deployment settings
   location: "{{ azure_common.location }}"
-  resource_group: "{{ azure_common.resource_group }}"
+  resource_group: "rg-{{ azure_resource_base }}"
 
   # AKS Cluster Configuration
   cluster:
-    name: aks-ansible-poc-swc
-    dns_prefix: aksansiblepoc
+    name: "aks-{{ azure_resource_base_regional }}"
+    dns_prefix: "aks{{ azure_resource_base | replace('-', '') | replace('_', '') }}"
     kubernetes_version: "1.36.0"  # Set to a supported version in the region
     agent_pool_profiles:
       - name: default

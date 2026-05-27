@@ -2,11 +2,11 @@
 azure_db_config:
   # Global Deployment settings
   location: "{{ azure_common.location }}"
-  resource_group: "{{ azure_common.resource_group }}"
+  resource_group: "rg-{{ azure_resource_base }}"
 
   # SQL Server Spec and Credentials
   server:
-    name: sql-ansible-poc
+    name: "sql-{{ azure_resource_base }}"
     admin:
       username: ansible
       password: !vault |
@@ -19,7 +19,7 @@ azure_db_config:
 
   # Database Spec
   database:
-    name: sqldb-ansible-poc
+    name: "sqldb-{{ azure_resource_base }}"
     sku:
       name: Basic
       tier: Basic

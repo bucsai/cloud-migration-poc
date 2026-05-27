@@ -12,4 +12,20 @@ azure_common:
             38646466303935346133386537373030353831313266643132303866613630373633653263396666
             3330376533356461393562343438623135613935376239616134
   location: swedencentral
-  resource_group: rg-ansible-poc-swc
+  project_name: ansible
+  env_name: poc
+
+# Suffix mapping dictionary for Azure locations
+azure_location_suffixes:
+  swedencentral: swc
+  eastus: eus
+  westus: wus
+  westeurope: weu
+  northeurope: neu
+
+# Derive location suffix from mapping, default to first 3 characters if not listed
+azure_location_suffix: "{{ azure_location_suffixes[azure_common.location] | default(azure_common.location[:3]) }}"
+
+# Consolidated resource naming bases
+azure_resource_base: "{{ azure_common.project_name }}-{{ azure_common.env_name }}"
+azure_resource_base_regional: "{{ azure_resource_base }}-{{ azure_location_suffix }}"

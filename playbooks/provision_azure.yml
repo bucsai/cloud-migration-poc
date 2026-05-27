@@ -10,7 +10,7 @@
   pre_tasks:
     - name: Ensure Resource Group exists
       azure.azcollection.azure_rm_resourcegroup:
-        name: "{{ azure_common.resource_group }}"
+        name: "rg-{{ azure_resource_base }}"
         location: "{{ azure_common.location }}"
         state: present
       tags:
@@ -52,6 +52,6 @@
   tasks:
     - name: Delete Resource Group and all associated resources
       azure.azcollection.azure_rm_resourcegroup:
-        name: "{{ azure_common.resource_group }}"
+        name: "rg-{{ azure_resource_base }}"
         state: absent
         force_delete_nonempty: true
