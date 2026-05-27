@@ -1,10 +1,12 @@
+name: cloud-migration-poc
+
 services:
-  devcontainer:
+  ansible:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: cloud-migration-poc
-    hostname: cloud-migration-poc
+    container_name: ansible
+    hostname: ansible
     tty: true
     stdin_open: true
     privileged: true
@@ -15,6 +17,23 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:z
     networks:
       - cloud-migration-poc
+    depends_on:
+      - ara
+
+  ara:
+    image: quay.io/recordsansible/ara-api:latest
+    container_name: ara
+    ports:
+      - "8000:8000"
+    environment:
+      ARA_ALLOWED_HOSTS: "['*']"
+    volumes:
+      - ara_data:/opt/ara
+    networks:
+      - cloud-migration-poc
+
+volumes:
+  ara_data:
 
 networks:
   cloud-migration-poc:
