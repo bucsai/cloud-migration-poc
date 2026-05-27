@@ -7,6 +7,18 @@
     AZURE_SUBSCRIPTION_ID: "{{ azure_common.subscription_id }}"
     AZURE_CLIENT_ID: "{{ azure_common.app_id }}"
     AZURE_SECRET: "{{ azure_common.app_pass }}"
+  pre_tasks:
+    - name: Ensure Resource Group exists
+      azure.azcollection.azure_rm_resourcegroup:
+        name: "{{ azure_common.resource_group }}"
+        location: "{{ azure_common.location }}"
+        state: present
+
+    - name: Get Ansible controller public IP for whitelisting
+      ansible.builtin.uri:
+        url: https://api.ipify.org?format=json
+        method: GET
+      register: ansible_controller_public_ip
   roles:
     - role: azure_vm
       tags:

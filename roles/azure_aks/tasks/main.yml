@@ -1,16 +1,4 @@
 ---
-- name: Ensure Resource Group exists
-  azure.azcollection.azure_rm_resourcegroup:
-    name: "{{ azure_aks_config.resource_group }}"
-    location: "{{ azure_aks_config.location }}"
-    state: present
-
-- name: Get local public IP for AKS whitelisting
-  ansible.builtin.uri:
-    url: https://api.ipify.org?format=json
-    method: GET
-  register: azure_aks_inbound_ip
-
 - name: Ensure AKS Cluster exists
   azure.azcollection.azure_rm_aks:
     resource_group: "{{ azure_aks_config.resource_group }}"
@@ -23,5 +11,5 @@
       type: SystemAssigned
     api_server_access_profile:
       authorized_ip_ranges:
-        - "{{ azure_aks_inbound_ip.json.ip }}/32"
+        - "{{ ansible_controller_public_ip.json.ip }}/32"
     state: present

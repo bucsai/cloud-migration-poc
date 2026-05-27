@@ -1,16 +1,4 @@
 ---
-- name: Get local public IP for NSG whitelisting
-  ansible.builtin.uri:
-    url: https://api.ipify.org?format=json
-    method: GET
-  register: azure_vm_inbound_ip
-
-- name: Ensure Resource Group exists
-  azure.azcollection.azure_rm_resourcegroup:
-    name: "{{ azure_vm_config.resource_group }}"
-    location: "{{ azure_vm_config.location }}"
-    state: present
-
 - name: Ensure Storage Account exists
   azure.azcollection.azure_rm_storageaccount:
     resource_group: "{{ azure_vm_config.resource_group }}"
@@ -33,7 +21,7 @@
     address_prefix: "{{ azure_vm_config.network.subnet.cidr }}"
     virtual_network: "{{ azure_vm_config.network.vnet.name }}"
 
-- name: Ensure Network Security Group exists with rules to allow WinRM and RDP from local IP
+- name: Ensure Network Security Group exists with rules to allow WinRM and RDP from Ansible controller's public IP
   azure.azcollection.azure_rm_securitygroup:
     resource_group: "{{ azure_vm_config.resource_group }}"
     name: "{{ azure_vm_config.network.nsg_name }}"
@@ -44,14 +32,14 @@
         access: Allow
         priority: 1001
         direction: Inbound
-        source_address_prefix: "{{ azure_vm_inbound_ip.json.ip }}"
+        source_address_prefix: "{{ ansible_controller_public_ip.json.ip }}"
       - name: AllowRDP
         protocol: Tcp
         destination_port_range: 3389
         access: Allow
         priority: 1002
         direction: Inbound
-        source_address_prefix: "{{ azure_vm_inbound_ip.json.ip }}"
+        source_address_prefix: "{{ ansible_controller_public_ip.json.ip }}"
 
 - name: Ensure Public IP exists
   azure.azcollection.azure_rm_publicipaddress:
