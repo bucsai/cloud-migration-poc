@@ -16,6 +16,10 @@
       tags:
         - azure_db
         - db
+    - role: azure_aks
+      tags:
+        - azure_aks
+        - aks
 
 - name: Tear down Azure Infrastructure
   hosts: localhost
