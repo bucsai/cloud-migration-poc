@@ -1,0 +1,37 @@
+---
+- name: Provision Azure Infrastructure
+  hosts: localhost
+  gather_facts: false
+  environment:
+    AZURE_TENANT: "{{ azure_common.tenant_id }}"
+    AZURE_SUBSCRIPTION_ID: "{{ azure_common.subscription_id }}"
+    AZURE_CLIENT_ID: "{{ azure_common.app_id }}"
+    AZURE_SECRET: "{{ azure_common.app_pass }}"
+  roles:
+    - role: azure_vm
+      tags:
+        - azure_vm
+        - vm
+    - role: azure_db
+      tags:
+        - azure_db
+        - db
+
+- name: Tear down Azure Infrastructure
+  hosts: localhost
+  gather_facts: false
+  tags:
+    - never
+    - destroy
+    - teardown
+  environment:
+    AZURE_TENANT: "{{ azure_common.tenant_id }}"
+    AZURE_SUBSCRIPTION_ID: "{{ azure_common.subscription_id }}"
+    AZURE_CLIENT_ID: "{{ azure_common.app_id }}"
+    AZURE_SECRET: "{{ azure_common.app_pass }}"
+  tasks:
+    - name: Delete Resource Group and all associated resources
+      azure.azcollection.azure_rm_resourcegroup:
+        name: "{{ azure_common.resource_group }}"
+        state: absent
+        force_delete_nonempty: true
