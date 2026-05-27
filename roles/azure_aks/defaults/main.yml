@@ -4,13 +4,13 @@ azure_aks_config:
   location: "{{ azure_common.location }}"
   resource_group: "{{ azure_common.resource_group }}"
 
-  # AKS Cluster Configuration (CAF Naming: aks- prefix)
+  # AKS Cluster Configuration
   cluster:
     name: aks-ansible-poc-swc
     dns_prefix: aksansiblepoc
-    kubernetes_version: ""  # Leave empty to use Azure default version
+    kubernetes_version: "1.36.0"  # Set to a supported version in the region
     agent_pool_profiles:
       - name: default
         count: 1
-        vm_size: Standard_B2s
+        vm_size: Standard_B2s_v2
         mode: System

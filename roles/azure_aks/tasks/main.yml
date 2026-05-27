@@ -5,7 +5,7 @@
     name: "{{ azure_aks_config.cluster.name }}"
     location: "{{ azure_aks_config.location }}"
     dns_prefix: "{{ azure_aks_config.cluster.dns_prefix }}"
-    kubernetes_version: "{{ azure_aks_config.cluster.kubernetes_version | default(omit) }}"
+    kubernetes_version: "{{ azure_aks_config.cluster.kubernetes_version }}"
     agent_pool_profiles: "{{ azure_aks_config.cluster.agent_pool_profiles }}"
     identity:
       type: SystemAssigned
