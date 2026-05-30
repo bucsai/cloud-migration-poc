@@ -11,17 +11,3 @@ services:
     volumes:
       - ..:/workspaces/ansible:cached
       - /var/run/docker.sock:/var/run/docker.sock:z
-    depends_on:
-      - ara
-
-  ara:
-    image: quay.io/recordsansible/ara-api:latest
-    ports:
-      - "8000:8000"
-    environment:
-      ARA_ALLOWED_HOSTS: "['*']"
-    volumes:
-      - ara_data:/opt/ara
-
-volumes:
-  ara_data:
